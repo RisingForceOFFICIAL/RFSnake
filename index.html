@@ -217,7 +217,7 @@ const DIFFS = [
 
 let COLS, ROWS, CELL;
 let diff = 1, walls = false, lightMode = false;
-let snake, dir, nextDir, food, score, highScore, speed, alive, paused, running, lastTick;
+let snake, dir, nextDir, food, score, highScore, speed, alive = false, paused = false, running = false, lastTick = 0;
 let particles = [];
 let animProgress = 0;
 
@@ -469,7 +469,7 @@ function loop(ts) {
   if (!running || !alive) { draw(); updateParticles(); return; }
   if (paused) { draw(); return; }
 
-  if (!lastTick) lastTick = ts;
+  if (lastTick === 0) lastTick = ts;
   const dt = ts - lastTick;
   animProgress = Math.min(dt / speed, 1);
 
@@ -500,7 +500,7 @@ document.addEventListener('keydown', e => {
     case ' ':
       paused = !paused;
       pauseLabel.style.opacity = paused ? '1' : '0';
-      if (!paused) lastTick = null;
+      if (!paused) lastTick = 0;
       e.preventDefault();
       break;
   }
@@ -532,7 +532,7 @@ canvas.addEventListener('touchend', e => {
     if (running && alive) {
       paused = !paused;
       pauseLabel.style.opacity = paused ? '1' : '0';
-      if (!paused) lastTick = null;
+      if (!paused) lastTick = 0;
     }
   } else if (absDx > absDy) {
     setDir(dx > 0 ? 1 : -1, 0);
@@ -549,7 +549,7 @@ startBtn.addEventListener('click', () => {
   init();
   overlay.style.display = 'none';
   running = true;
-  lastTick = null;
+  lastTick = 0;
 });
 
 // Initial draw

@@ -385,6 +385,7 @@ function draw() {
   }
 
   // Snake
+  if (!snake || !snake.length) return;
   const t = Math.min(animProgress, 1);
   snake.forEach((seg, i) => {
     let sx = seg.x * CELL, sy = seg.y * CELL;
